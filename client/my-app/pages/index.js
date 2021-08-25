@@ -3,7 +3,7 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
 import React, {useState, useEffect} from 'react'
-import Input from '../components/Input'
+import Link from 'next/Link'
 import { csv } from 'd3'
 
 export default function Home() {
@@ -36,7 +36,7 @@ export default function Home() {
           think?
         </p>
 
-        <Input/>
+        <Link href="/searchResult">Rate</Link>
 
 
       </main>

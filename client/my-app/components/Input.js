@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react'
 import Axios from 'axios'
+import React, { useState, useEffect } from "react";
 
-export default function Input() {
+import styles from '../styles/Input.module.css'
+
+export default function Input({parentCallback}) {
     const [tickerList, setTickerList] = useState([]);
     const [nasdaqList, setNasdaqList] = useState([]);
     const[Input, setInput] = useState("");
+    const[ticker, setTicker] = useState("");
 
     useEffect(() => {
         Axios.get('http://localhost:3001/read').then((response) => {
@@ -24,32 +27,35 @@ export default function Input() {
         })
     }
     const handleSubmit = (e) => {
-        Axios.get("http://localhost:3001/nasdaq", Input).catch(function (err) {
-            console.log(err);
-        })
+        setTicker(Input.ticker)
+        parentCallback(Input.ticker);
+
         var check = 0;
-        var inputVal = Input;
 
         for (var index = 0; index < nasdaqList.length; ++index) {
 
             var animal = nasdaqList[index];
-            // console.log(animal.Symbol);
             if(animal.Symbol == Input.ticker){
                check = 1;
             }
-           }
-           if (check == 1) {
-               console.log("FOUND");
-           }
-           else {
-               alert("Please enter a valid ticker!");
-           }
+        }
+        if (check == 1) {
+            console.log("FOUND");
+        }
+        else {
+            alert("Please enter a valid ticker!");
+        }
         if (check) {
             Axios.post("http://localhost:3001/insert", Input);
-            
-            window.location = '/searchResult';
+
+            {
+                var div = '<h1>test</h1>';
+                var dom = document.getElementsByClassName('resultBox');
+                dom.innerHTML += div;
+            }
         }
     };
+
     return (
         <div>
             <label>
@@ -58,15 +64,20 @@ export default function Input() {
             </label>
             <button onClick={handleSubmit}>Rate</button>
 
-            <h1>Wall-Status-Bets.io Trending</h1>
-
-            {tickerList.map((val, key) => {
+            <div className={styles.resultBox}>
+                <h3>{Input.ticker}</h3>
+            </div>
+            <div>
+                <searchResult ticker={Input}/>
+            </div>
+            {/* wall status bets trending page */}
+            {/* {tickerList.map((val, key) => {
                 return (
                     <div key={key}>
                         <h1> {val.ticker}</h1>
                     </div>
                 )
-            })}
+            })} */}
 
         </div>
     )
