@@ -8,19 +8,54 @@ import { csv } from 'd3'
 import axios from 'axios'
 
 export default function Home() {
-  //pushshift api
-  const [data, setData] = useState([]);
+  const [nasdaqList, setNasdaqList] = useState([]);
   useEffect(() => {
-    axios('https://api.pushshift.io/reddit/search/comment/?q=GME&subreddit=wallstreetbets&size=100&after=3h')
-    // axios('https://api.pushshift.io/reddit/search/submission/?q=TSLA&subreddit=wallstreetbets&size=0&after=1d&aggs=created_utc&frequency=day')
+    Axios.get('http://localhost:3001/nasdaq').then((response) => {
+        setNasdaqList(response.data)
+    })
+  }, []);
+
+  //pushshift api
+  // const [data, setData] = useState([]);
+  // useEffect(() => {
+  //   axios('https://api.pushshift.io/reddit/search/comment/?q=GME&subreddit=wallstreetbets&size=100&after=3h')
+  //     .then(response=> {
+  //       setData(response.data);
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     })
+  // },[])
+
+  //for every element in nasdaq, make a pushshift search then put into database with a count; then retrieve the data (count) and put it on the trending section
+
+
+  // const [data, setData] = useState([]);
+  // useEffect(() => {
+    nasdaqList.slice(0,100).map((val, key) => {
+      axios.get('https://api.pushshift.io/reddit/search/submission/?q=' + val.Symbol.toString() + '&subreddit=wallstreetbets&size=100&after=1y')
       .then(response=> {
-        setData(response.data);
+        console.log(response);
+        axios.post("http://localhost:3001/redditCount", response)
       })
-      .catch(err => {
-        console.log(err);
-      })
-  },[])
-  console.log(data);
+      .catch(err => { const mute = err })
+    });
+
+    // var xhr = new XMLHttpRequest(); //invoke a new instance of the XMLHttpRequest
+    // xhr.onload = success; // call success function if request is successful
+    // xhr.onerror = error;  // call error function if request failed
+    // nasdaqList.slice(0,100).map((val, key) => {
+    //   fetch('https://api.pushshift.io/reddit/search/submission/?q=' + val.Symbol.toString() + '&subreddit=wallstreetbets&size=100&after=1y')
+    //   .then(response=> {
+    //     console.log(response);
+    //     xhr.open('POST', 'https://localhost:3001/redditCount', response); // open a GET request
+    //     xhr.send(); // send the request to the server.
+    //   })
+    //   .catch(err => { const mute = err })
+    // });
+  // },[]);
+
+
   // console.log(data.data.length);
   return (  
     <div className={styles.container}>
@@ -58,7 +93,7 @@ export default function Home() {
 
 
       <footer className={styles.footer}>
-        <a classname={styles.github}
+        <a className={styles.github}
           href="https://github.com/minsooerickim"
           target="_blank"
           rel="noopener noreferrer"
