@@ -1,3 +1,4 @@
+
 const express = require('express');
 const mongoose = require('mongoose');
 
@@ -11,12 +12,6 @@ const { db } = require('./models/Tickers');
 
 app.use(express.json()); //allows for receiving data from frontend in json
 app.use(cors());
-
-// app.use(function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//     next();
-// });
   
 app.use((req, res, next) => {
     const corsWhitelist = [
@@ -55,21 +50,17 @@ app.post('/insert', async (req, res) => {
 })
 
 app.post('/redditCount', async (req, res) => {
-    var url = req.body.config.url;
-    const tickerName = url.substring(
-        url.lastIndexOf("q") + 2,
-        url.lastIndexOf("&subreddit")
-    )
-    const count = req.body.data.data.length;
-    console.log(tickerName);
-    console.log(count);
-    const redditCount = new redditCountModel({ticker: tickerName, count: count});
-
-    try {
-        await redditCount.save();
-        res.send("inserted redditCount");
-    } catch(err) {
-        functionToHandleError(e);
+    //check if entry already exists in db
+    const entry = await redditCountModel.findOne({ticker: req.body.ticker});
+    if (!entry) { 
+        console.log(req.body.ticker + ": " + req.body);
+        const redditCount = new redditCountModel({ticker: req.body.ticker, count: req.body.count});
+        try {
+            await redditCount.save();
+            res.send("inserted redditCount");
+        } catch(err) {
+            functionToHandleError(e);
+        }
     }
 })
 
@@ -89,8 +80,34 @@ app.get('/nasdaq', async (req, res) => {
         res.send(result);
     })
 })
+
+app.post('/snoowrap', async (req, res) => {
+    //snoowrap
+    'use strict';
+
+    const snoowrapp = require('snoowrap');
+    
+    const r = new snoowrapp({
+        userAgent: 'script:test:v1.0.0 <developerminsoo>',
+        clientId: 'Ur9aW_N8R7ZBnkbCmHqA2g',
+        clientSecret: '7-olaVnHIokgpdR22zh3YhxpQoJmTA',
+        refreshToken: '726503909821-n6MN-jgHNbngOEnK_QTSSMnnFsxMUQ',
+    });
+    r.getSubreddit('wallstreetbets').search({query: req.body.Symbol, time:'day', limit:500}).then(result => {
+        var count = result.length;
+        count = count + "";
+        res.send(count);
+    })
+    
+    //do all the api work here and just send over the number of mentions or sum
+    
+    //loop through nasdaq list; keep count of number of queries; push into db; list top 5, 10, etc
+    // console.log(req);
+})
 app.listen(3001, () => {
     console.log('Server running on port 3001');
 });
 
 module.exports = app;
+
+

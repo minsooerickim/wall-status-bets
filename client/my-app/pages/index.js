@@ -1,62 +1,31 @@
 import Head from 'next/head'
-import Axios from 'axios'
 import styles from '../styles/Home.module.css'
 
 import React, {useState, useEffect} from 'react'
 import Link from 'next/Link'
-import { csv } from 'd3'
 import axios from 'axios'
+
 
 export default function Home() {
   const [nasdaqList, setNasdaqList] = useState([]);
   useEffect(() => {
-    Axios.get('http://localhost:3001/nasdaq').then((response) => {
+    axios.get('http://localhost:3001/nasdaq').then((response) => {
         setNasdaqList(response.data)
     })
   }, []);
 
-  //pushshift api
-  // const [data, setData] = useState([]);
-  // useEffect(() => {
-  //   axios('https://api.pushshift.io/reddit/search/comment/?q=GME&subreddit=wallstreetbets&size=100&after=3h')
-  //     .then(response=> {
-  //       setData(response.data);
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     })
-  // },[])
-
-  //for every element in nasdaq, make a pushshift search then put into database with a count; then retrieve the data (count) and put it on the trending section
-
-
-  // const [data, setData] = useState([]);
-  // useEffect(() => {
-    nasdaqList.slice(0,100).map((val, key) => {
-      axios.get('https://api.pushshift.io/reddit/search/submission/?q=' + val.Symbol.toString() + '&subreddit=wallstreetbets&size=100&after=1y')
-      .then(response=> {
-        console.log(response);
-        axios.post("http://localhost:3001/redditCount", response)
+  var snoowrapCount;
+  nasdaqList.map((val, key) => {
+    setTimeout(() => {
+      axios.post('http://localhost:3001/snoowrap', val).then((response) => {
+        var JSONobject = {"ticker": val.Symbol, "count":response.data};
+        axios.post('http://localhost:3001/redditCount', JSONobject).then((response) => {
+          console.log(response.data);
+        })
       })
-      .catch(err => { const mute = err })
-    });
+    }, 1000);
+  });       
 
-    // var xhr = new XMLHttpRequest(); //invoke a new instance of the XMLHttpRequest
-    // xhr.onload = success; // call success function if request is successful
-    // xhr.onerror = error;  // call error function if request failed
-    // nasdaqList.slice(0,100).map((val, key) => {
-    //   fetch('https://api.pushshift.io/reddit/search/submission/?q=' + val.Symbol.toString() + '&subreddit=wallstreetbets&size=100&after=1y')
-    //   .then(response=> {
-    //     console.log(response);
-    //     xhr.open('POST', 'https://localhost:3001/redditCount', response); // open a GET request
-    //     xhr.send(); // send the request to the server.
-    //   })
-    //   .catch(err => { const mute = err })
-    // });
-  // },[]);
-
-
-  // console.log(data.data.length);
   return (  
     <div className={styles.container}>
       <Head>
@@ -84,8 +53,12 @@ export default function Home() {
 
         <div className={styles.trending}>
           <h1>Trending <br></br></h1>
-          <p className={styles.description}><code className={styles.code}>r/wallstreetbets</code></p>
-
+          <div>
+            <p className={styles.description}><code className={styles.code}>r/wallstreetbets</code></p>
+            <p>
+              {snoowrapCount}
+            </p>
+          </div>
           <p className={styles.description}><code className={styles.code}>WallStatusBets.io</code></p>
           </div>
       </main>
