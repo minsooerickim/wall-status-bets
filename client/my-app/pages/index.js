@@ -1,10 +1,9 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, createElement} from 'react'
 import Link from 'next/Link'
 import axios from 'axios'
-
 
 export default function Home() {
   const [nasdaqList, setNasdaqList] = useState([]);
@@ -12,19 +11,45 @@ export default function Home() {
     axios.get('http://localhost:3001/nasdaq').then((response) => {
         setNasdaqList(response.data)
     })
-  }, []);
+  }, []); 
 
-  var snoowrapCount;
-  nasdaqList.map((val, key) => {
-    setTimeout(() => {
-      axios.post('http://localhost:3001/snoowrap', val).then((response) => {
-        var JSONobject = {"ticker": val.Symbol, "count":response.data};
-        axios.post('http://localhost:3001/redditCount', JSONobject).then((response) => {
-          console.log(response.data);
-        })
-      })
-    }, 1000);
-  });       
+  const [ticker, setTicker] = useState([]);
+  useEffect(() => {
+    axios.get('http://localhost:3001/read').then((response) => {
+      setTicker(response.data);
+    })
+  }, [])
+  
+  // axios.post('http://localhost:3001/wsbCount', ticker[4]).then((response) => {
+  //   console.log(response.data);
+  // })
+
+  //trying to make a search and add a entry to db for every ticker in nasdaq (but the data was wayy too big)
+  // var snoowrapCount;
+  // nasdaqList.map((val, key) => {
+  //   axios.post('http://localhost:3001/snoowrap', val).then((response) => {
+  //       if (response.data != "exists") {
+  //         console.log("reddit path taken");
+  //         var JSONobject = {"ticker": val.Symbol, "count":response.data};
+  //         axios.post('http://localhost:3001/redditCount', JSONobject).then((response) => {
+  //           console.log(response.data);
+  //         })
+  //       }
+  //   })
+  // });  
+
+  //trending
+  const [trending, setTrending] = useState([]);
+  useEffect(() => {
+    axios.post('http://localhost:3001/trending').then((response) => {
+      // console.log(response.data);  
+      setTrending(response.data);
+    })
+  }, []); 
+  
+  for (var i = 0; i < trending.length; ++i) {
+    if (trending[i].selftext === "") { trending.splice(i, 1); console.log("empty string found") }
+  }
 
   return (  
     <div className={styles.container}>
@@ -51,16 +76,33 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={styles.trending}>
-          <h1>Trending <br></br></h1>
-          <div>
-            <p className={styles.description}><code className={styles.code}>r/wallstreetbets</code></p>
-            <p>
-              {snoowrapCount}
-            </p>
+        <h1 className={styles.trendingTitle}>Trending</h1>
+
+        <div className={styles.row}>
+          
+          <div className={styles.trending}>
+            <div>
+              <p id="wsbtrending" className={styles.description}><code className={styles.code}>r/wallstreetbets</code></p>
+                {/* {snoowrapCount} */}
+                {trending.map((val, key) => {
+                  return (
+                    <p key={key} id={styles.list}>{key+1}. {val.selftext}</p>
+                  )
+                })}
+            </div>
           </div>
-          <p className={styles.description}><code className={styles.code}>WallStatusBets.io</code></p>
+
+          <div className={styles.wsb}>
+            <p className={styles.description}><code className={styles.code}>WallStatusBets.io</code></p>
+                {ticker.map((val, key) => {
+                    return (
+                      <p key={key} id={styles.ticker}>{key+1}. {val.ticker} - 0 searches</p>
+                    )
+                })}
           </div>
+        </div>
+
+        <p>hello</p>
       </main>
       
 

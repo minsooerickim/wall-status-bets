@@ -41,7 +41,8 @@ export default function App() {
     return (
       <div className="App">
         <Counter parentCallback={callback} />
-        <h2>NO FKN WAY: {ticker}</h2>
+        <h2>{ticker}</h2>
+        {/* <p>{animal.Name}</p> */}
       </div>
     );
   }

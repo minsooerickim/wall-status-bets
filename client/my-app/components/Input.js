@@ -58,15 +58,15 @@ export default function Input({parentCallback}) {
 
     return (
         <div>
-            <label>
-                Ticker:
-                <input name="ticker" onChange={handleChange} placeholder="TSLA"/>
+            <label className={styles.white}>
+                Ticker{' '}:{' '}
+                <input className={styles.white}name="ticker" onChange={handleChange} placeholder="TSLA"/>
             </label>
-            <button onClick={handleSubmit}>Rate</button>
+            <button className={styles.white} onClick={handleSubmit}>Rate</button>
 
-            <div className={styles.resultBox}>
+            {/* <div className={styles.resultBox}>
                 <h3>{Input.ticker}</h3>
-            </div>
+            </div> */}
             <div>
                 <searchResult ticker={Input}/>
             </div>
