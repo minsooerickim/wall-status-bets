@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 const express = require('express');
 const mongoose = require('mongoose');
 
@@ -36,14 +38,31 @@ mongoose.connect(
 );
 
 app.post('/insert', async (req, res) => {
-    const tickerName = req.body.ticker;
-    const ticker = new stockModel({ticker: tickerName}); //ticker just represents an instance of the model
+    //first find if alr exists; if exists => ++count; else => insert with 1 count
 
+    if (await stockModel.countDocuments({ ticker: req.body.ticker }) != 0) {
+        res.send('update');
+    }
+    else {
+        const tickerName = req.body.ticker;
+        const ticker = new stockModel({ ticker: tickerName, count: 1}); //ticker just represents an instance of the model
+
+        try {
+            await ticker.save(); //saved into the db collection
+            res.send("inserted ticker");
+        } catch(err) {
+            console.log(err)
+        }
+    }
+})
+app.put('/updateCount', async (req, res) => {
     try {
-        await ticker.save(); //saved into the db collection
-        res.send("inserted ticker");
+        stockModel.findOne({ ticker: req.body.ticker }, (err, tick) => {
+            tick.count += 1;
+            tick.save();
+        })
     } catch(err) {
-        console.log(err)
+        functionToHandleError(e);
     }
 })
 
@@ -64,12 +83,14 @@ app.post('/redditCount', async (req, res) => {
 
 //ticker collection (userinput)
 app.get('/read', async (req, res) => {
-    stockModel.find({}, (err, result) => {
-        if (err) {
-            res.send(err);
-        }
-        res.send(result);
-    })
+    var sortedResult = await stockModel.find({}).sort({count: -1});
+    res.send(sortedResult);
+    // stockModel.find({}, (err, result) => {
+    //     if (err) {
+    //         res.send(err);
+    //     }
+    //     res.send(result);
+    // })
 })
 app.get('/nasdaq', async (req, res) => {
     nasdaqModel.find({}, (err, result) => {

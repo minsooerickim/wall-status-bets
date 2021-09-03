@@ -96,7 +96,7 @@ export default function Home() {
             <p className={styles.description}><code className={styles.code}>WallStatusBets.io</code></p>
                 {ticker.map((val, key) => {
                     return (
-                      <p key={key} id={styles.ticker}>{key+1}. {val.ticker} - 0 searches</p>
+                      <p key={key} id={styles.ticker}>{key+1}. {val.ticker} - {val.count} searches</p>
                     )
                 })}
           </div>
