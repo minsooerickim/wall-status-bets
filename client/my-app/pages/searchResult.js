@@ -3,7 +3,7 @@ import Ticker from '../components/Ticker'
 import Head from 'next/head'
 import Link from 'next/Link'
 
-import styles from '../styles/searchResult.module.css'
+import styles from '../styles/searchresult.module.css'
 
 export default function searchResult() {
     return (  
