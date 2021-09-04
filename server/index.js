@@ -100,6 +100,23 @@ app.get('/nasdaq', async (req, res) => {
         res.send(result);
     })
 })
+app.post('/search', async (req, res) => {
+    //snoowrap
+    'use strict';
+
+    const snoowrapp = require('snoowrap');
+    
+    const r = new snoowrapp({
+        userAgent: 'script:test:v1.0.0 <developerminsoo>',
+        clientId: 'Ur9aW_N8R7ZBnkbCmHqA2g',
+        clientSecret: '7-olaVnHIokgpdR22zh3YhxpQoJmTA',
+        refreshToken: '726503909821-n6MN-jgHNbngOEnK_QTSSMnnFsxMUQ',
+    });
+    
+    console.log(req.body.ticker);
+    var result = r.getSubreddit('wallstreetbets').search({ query: req.body.ticker, time: "week" });
+    console.log(await result.length);
+})
 // app.post('/wsbCount', async (req, res) => {
 //     var result = stockModel.count({ticker: req.body.ticker})
 //     console.log(result);

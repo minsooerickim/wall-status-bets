@@ -72,7 +72,7 @@ export default function Home() {
             {' '} think?
           </p>
           <div className={styles.start}>
-            <Link href="/searchResult">Start!</Link>
+            <Link href="/searchresult">Start!</Link>
           </div>
         </div>
 

@@ -33,7 +33,12 @@ export default function App() {
 
             break;
           }
-      }
+        }
+        //search for comments
+        var JSONobject = {"ticker": ticker};
+        Axios.post('http://localhost:3001/search', JSONobject).then((response) => {
+          console.log(response.data);
+        })
     }, [ticker]);
 
 
