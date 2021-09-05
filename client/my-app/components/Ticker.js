@@ -1,7 +1,9 @@
 import React from 'react'
 import Axios from 'axios'
 import { useCallback, useState, useEffect } from "react";
+
 import Counter from '../components/Input'
+import Chart from '../components/Chart'
 
 export default function App() {
     //getting userInput into 'ticker' using callbacks
@@ -53,9 +55,8 @@ export default function App() {
       <div className="App">
         <Counter parentCallback={callback} />
         <h2>{ticker}</h2>
-        <div id="details">
-
-        </div>
+        <div id="details"></div>
+        <Chart/>
       </div>
     );
   }
