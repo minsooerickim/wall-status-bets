@@ -113,9 +113,10 @@ app.post('/search', async (req, res) => {
         refreshToken: '726503909821-n6MN-jgHNbngOEnK_QTSSMnnFsxMUQ',
     });
     
-    console.log(req.body.ticker);
     var result = r.getSubreddit('wallstreetbets').search({ query: req.body.ticker, time: "week" });
-    console.log(await result.length);
+    var test = await result.length;
+    test = test + "";
+    res.send(test);
 })
 // app.post('/wsbCount', async (req, res) => {
 //     var result = stockModel.count({ticker: req.body.ticker})

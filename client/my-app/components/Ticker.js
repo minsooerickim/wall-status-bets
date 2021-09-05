@@ -20,7 +20,10 @@ export default function App() {
         for (var index = 0; index < nasdaqList.length; ++index) {
           var animal = nasdaqList[index];
           // console.log(animal.Symbol);
-          if (animal.Symbol === ticker){
+          if (animal.Symbol === ticker) {
+            //clear previous searches
+            document.getElementById('details').innerHTML = "";
+
             var p = document.createElement("p");
             var text = document.createTextNode(animal.Name);
             p.appendChild(text);
@@ -34,10 +37,14 @@ export default function App() {
             break;
           }
         }
-        //search for comments
+        //search for comments CHECK IF THIS WORKS
         var JSONobject = {"ticker": ticker};
         Axios.post('http://localhost:3001/search', JSONobject).then((response) => {
           console.log(response.data);
+          var h3 = document.createElement("h3");
+          var text = document.createTextNode('wsb mentioned ' + ticker + ' ' + response.data + ' times');
+          h3.appendChild(text);
+          document.getElementById("details").appendChild(h3);
         })
     }, [ticker]);
 
