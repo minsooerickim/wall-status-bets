@@ -13,30 +13,12 @@ const redditCountModel = require('./models/redditCount');
 app.use(express.json()); //allows for receiving data from frontend in json
 app.use(cors());
   
-// app.use((req, res, next) => {
-//     const corsWhitelist = [
-//         'https://api.pushshift.io/',
-//         'localhost:3000',
-//         'localhost:3001',
-//         'localhost',
-//         'https://localhost:3000',
-//         'https://localhost:3001',
-//         'https://api.pushshift.io/reddit/search/submission/',
-//         'https://api.pushshift.io/reddit/search/submission/?q=ABNB&subreddit=wallstreetbets&size=100&after=1y'
-
-//     ];
-//     if (corsWhitelist.indexOf(req.headers.origin) !== -1) {
-//         res.header('Access-Control-Allow-Origin', req.headers.origin);
-//         res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-//     }
-
-//     next();
-// });
 mongoose.connect(
     'mongodb+srv://minsookime:wall-street-bets-password@crud.xtajt.mongodb.net/stock?retryWrites=true&w=majority', 
     { useNewUrlParser: true, },
 );
 
+//inserting userinput ticker into db
 app.post('/insert', async (req, res) => {
     //first find if alr exists; if exists => ++count; else => insert with 1 count
 
@@ -55,6 +37,8 @@ app.post('/insert', async (req, res) => {
         }
     }
 })
+
+//updating count (# of user searches on wallstatusbets.io)
 app.put('/updateCount', async (req, res) => {
     try {
         stockModel.findOne({ ticker: req.body.ticker }, (err, tick) => {
@@ -81,17 +65,13 @@ app.post('/redditCount', async (req, res) => {
     // }
 })
 
-//ticker collection (userinput)
+//ticker collection (userinput) in sorted order (highest to lowest searches)
 app.get('/read', async (req, res) => {
     var sortedResult = await stockModel.find({}).sort({count: -1});
     res.send(sortedResult);
-    // stockModel.find({}, (err, result) => {
-    //     if (err) {
-    //         res.send(err);
-    //     }
-    //     res.send(result);
-    // })
 })
+
+//retrieve all the nasdaq tickers from db
 app.get('/nasdaq', async (req, res) => {
     nasdaqModel.find({}, (err, result) => {
         if (err) {
@@ -100,6 +80,8 @@ app.get('/nasdaq', async (req, res) => {
         res.send(result);
     })
 })
+
+//number of mentions of the stock in the past day, week, month, year
 app.post('/search', async (req, res) => {
     //snoowrap
     'use strict';
@@ -114,7 +96,7 @@ app.post('/search', async (req, res) => {
     });
     // arry = [] arry[0] = length of 'hour' result; arry[1] = length of 'week' result etc.
     var arr = [];
-    var result = r.getSubreddit('wallstreetbets').search({ query: req.body.ticker, time: "hour", limit: 1000 }); //hour, day, week, month, year, all
+    var result = r.getSubreddit('wallstreetbets').search({ query: req.body.ticker, time: "hour", limit: 1000 }); //hour, day, week, month, year
     var test = await result.length;
     test = test + "";
     arr.push(test);
@@ -138,7 +120,7 @@ app.post('/search', async (req, res) => {
     test = await result.length;
     test = test + "";
     arr.push(test);
-    
+
     res.send(arr);
 })
 // app.post('/wsbCount', async (req, res) => {
@@ -182,6 +164,7 @@ app.post('/search', async (req, res) => {
 //     // console.log(req);
 // })
 
+//trending posts on reddit r/wallstreetbets
 app.post('/trending', async (req, res) => {
     //snoowrap
     'use strict';
@@ -200,6 +183,7 @@ app.post('/trending', async (req, res) => {
         else { res.send(JSON.stringify(result)); }
     })
 })
+
 app.listen(3001, () => {
     console.log('Server running on port 3001');
 });
