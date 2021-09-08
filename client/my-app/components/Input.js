@@ -70,7 +70,7 @@ export default function Input({parentCallback}) {
                 Ticker{' '}:{' '}
                 <input className={styles.white}name="ticker" onChange={handleChange} placeholder="TSLA"/>
             </label>
-            <button className={styles.white} onClick={handleSubmit}>Rate</button>
+            <button id="submitButton" className={styles.white} onClick={handleSubmit}>Rate</button>
 
             {/* <div className={styles.resultBox}>
                 <h3>{Input.ticker}</h3>

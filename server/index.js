@@ -112,11 +112,34 @@ app.post('/search', async (req, res) => {
         clientSecret: '7-olaVnHIokgpdR22zh3YhxpQoJmTA',
         refreshToken: '726503909821-n6MN-jgHNbngOEnK_QTSSMnnFsxMUQ',
     });
-    
-    var result = r.getSubreddit('wallstreetbets').search({ query: req.body.ticker, time: "week" });
+    // arry = [] arry[0] = length of 'hour' result; arry[1] = length of 'week' result etc.
+    var arr = [];
+    var result = r.getSubreddit('wallstreetbets').search({ query: req.body.ticker, time: "hour", limit: 1000 }); //hour, day, week, month, year, all
     var test = await result.length;
     test = test + "";
-    res.send(test);
+    arr.push(test);
+
+    result = r.getSubreddit('wallstreetbets').search({ query: req.body.ticker, time: "day", limit: 1000 });
+    test = await result.length;
+    test = test + "";
+    arr.push(test);
+
+    result = r.getSubreddit('wallstreetbets').search({ query: req.body.ticker, time: "week", limit: 1000 });
+    test = await result.length;
+    test = test + "";
+    arr.push(test);
+
+    result = r.getSubreddit('wallstreetbets').search({ query: req.body.ticker, time: "month", limit: 1000 });
+    test = await result.length;
+    test = test + "";
+    arr.push(test);
+
+    result = r.getSubreddit('wallstreetbets').search({ query: req.body.ticker, time: "year", limit: 1000});
+    test = await result.length;
+    test = test + "";
+    arr.push(test);
+    
+    res.send(arr);
 })
 // app.post('/wsbCount', async (req, res) => {
 //     var result = stockModel.count({ticker: req.body.ticker})
