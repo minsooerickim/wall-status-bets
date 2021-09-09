@@ -87,7 +87,7 @@ export default function App() {
               label: '# of Mentions',
               data: [arry[0], arry[1], arry[2], arry[3], arry[4]],
               fill: false,
-              backgroundColor: 'rgb(255, 99, 132)',
+              backgroundColor: '#c3532b',
               borderColor: 'rgba(255, 99, 132, 0.2)',
             },
           ],
@@ -100,7 +100,7 @@ export default function App() {
               label: '# of Mentions',
               data: [arry[0], arry[1], arry[2], arry[3], arry[4]],
               backgroundColor: [
-                'rgb(255, 99, 132)',
+                '#c3532b',
                 'rgb(75, 192, 192)',
                 'rgb(255, 205, 86)',
                 'rgb(201, 203, 207)',
@@ -131,7 +131,7 @@ export default function App() {
       {/* <h2>{ticker}</h2> */}
       
       <div id="hide" className={styles.hide}>
-        <h2 className={styles.tickerName}>{ticker}</h2>
+        <h2 className={styles.red}>{ticker}</h2>
         <div id="details"></div>
         
         <div className={styles.row}>
@@ -143,14 +143,17 @@ export default function App() {
           <div className={styles.description}>
             <p className={styles.codeHeader}>
               <code className={styles.code}>r/wallstreetbets</code>
-              {' '} mentioned {ticker}
+              {' '} mentioned <span className={styles.red}>{ticker}</span>
             </p>
             <div id="mentionsDescription"></div>
           </div>
+          
+        </div>
 
+        <div>
+          <Chart chartData={chartData} />
         </div>
         
-        <Chart chartData={chartData} />
       </div>
     </div>
   );

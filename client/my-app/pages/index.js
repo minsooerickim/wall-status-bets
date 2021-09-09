@@ -19,24 +19,6 @@ export default function Home() {
       setTicker(response.data);
     })
   }, [])
-  
-  // axios.post('http://localhost:3001/wsbCount', ticker[4]).then((response) => {
-  //   console.log(response.data);
-  // })
-
-  //trying to make a search and add a entry to db for every ticker in nasdaq (but the data was wayy too big)
-  // var snoowrapCount;
-  // nasdaqList.map((val, key) => {
-  //   axios.post('http://localhost:3001/snoowrap', val).then((response) => {
-  //       if (response.data != "exists") {
-  //         console.log("reddit path taken");
-  //         var JSONobject = {"ticker": val.Symbol, "count":response.data};
-  //         axios.post('http://localhost:3001/redditCount', JSONobject).then((response) => {
-  //           console.log(response.data);
-  //         })
-  //       }
-  //   })
-  // });  
 
   //trending
   const [trending, setTrending] = useState([]);

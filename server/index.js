@@ -50,21 +50,6 @@ app.put('/updateCount', async (req, res) => {
     }
 })
 
-app.post('/redditCount', async (req, res) => {
-    //check if entry already exists in db
-    // const entry = await redditCountModel.findOne({ticker: req.body.ticker});
-    // if (!entry) { 
-        console.log(req.body.ticker + ": " + req.body);
-        const redditCount = new redditCountModel({ticker: req.body.ticker, count: req.body.count});
-        try {
-            await redditCount.save();
-            res.send("inserted redditCount");
-        } catch(err) {
-            functionToHandleError(e);
-        }
-    // }
-})
-
 //ticker collection (userinput) in sorted order (highest to lowest searches)
 app.get('/read', async (req, res) => {
     var sortedResult = await stockModel.find({}).sort({count: -1});

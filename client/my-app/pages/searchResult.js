@@ -20,7 +20,7 @@ export default function searchResult() {
           <main>
             <div>
               <h1 className={styles.title}>
-                Welcome to <a>WallStatusBets.io!</a>
+                Welcome to <a href="/">WallStatusBets.io!</a>
               </h1>
 
               <div id="disappear">
