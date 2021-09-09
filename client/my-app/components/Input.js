@@ -46,6 +46,8 @@ export default function Input({parentCallback}) {
             alert("Please enter a valid ticker!");
         }
         if (check) {
+            var x = document.getElementById("hide");
+            x.style.display = "none";
             Axios.post("http://localhost:3001/insert", Input).then((response) => {
                 console.log(response.data);
                 if (response.data === 'update') {

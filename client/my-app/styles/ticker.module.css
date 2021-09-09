@@ -1,0 +1,12 @@
+.row {
+    display: flex;
+}
+.pie {
+    flex: 50%;
+}
+.description {
+    flex: 50%;
+}
+.hide {
+    display: none;
+}

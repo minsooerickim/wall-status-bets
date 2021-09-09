@@ -3,18 +3,21 @@ import Axios from 'axios'
 import { useCallback, useState, useEffect } from "react";
 // import { Line } from 'react-chartjs-2'
 import Chart from '../components/Chart'
-
+import Pie from '../components/Pie'
 import Counter from '../components/Input'
+import styles from '../styles/ticker.module.css'
+// import Dropdown from '../components/Dropdown'
 
 export default function App() {
   const [chartData, setChartData] = useState({});
+  const [pieData, setPieData] = useState({});
   //getting userInput into 'ticker' using callbacks
   const[ticker, setTicker] = useState("");
   const callback = useCallback((ticker) => {
     setTicker(ticker);
   }, []);
   
-  var arry = [];
+  const arry = [];
   const [nasdaqList, setNasdaqList] = useState([]);
   useEffect(() => {
       Axios.get('http://localhost:3001/nasdaq').then((response) => {
@@ -49,19 +52,39 @@ export default function App() {
           var tmp = response.data[i];
           arry.push(+tmp);
         }
-
-        console.log(arry);
-        var h3 = document.createElement("h3");
-        var text = document.createTextNode('wsb mentioned ' + ticker + ' ' + response.data + ' times');
+        
+        document.getElementById("mentionsDescription").innerHTML = "";
+        var h3 = document.createElement("p");
+        var text = document.createTextNode('r/wallstreetbets mentioned ' + ticker + ' ' + arry[0] + ' times in the past hour');
         h3.appendChild(text);
-        document.getElementById("details").appendChild(h3);
+        document.getElementById("mentionsDescription").appendChild(h3);
+
+        h3 = document.createElement("p");
+        text = document.createTextNode('r/wallstreetbets mentioned ' + ticker + ' ' +  + arry[1] + ' times in the past day');
+        h3.appendChild(text);
+        document.getElementById("mentionsDescription").appendChild(h3);
+
+        h3 = document.createElement("p");
+        text = document.createTextNode('r/wallstreetbets mentioned ' + ticker + ' ' +  + arry[2] + ' times in the past week');
+        h3.appendChild(text);
+        document.getElementById("mentionsDescription").appendChild(h3);
+
+        h3 = document.createElement("p");
+        text = document.createTextNode('r/wallstreetbets mentioned ' + ticker + ' ' +  + arry[3] + ' times in the past month');
+        h3.appendChild(text);
+        document.getElementById("mentionsDescription").appendChild(h3);
+
+        h3 = document.createElement("p");
+        text = document.createTextNode('r/wallstreetbets mentioned ' + ticker + ' ' +  + arry[4] + ' times in the past year');
+        h3.appendChild(text);
+        document.getElementById("mentionsDescription").appendChild(h3);
 
 
         setChartData({
           labels: ['hour', 'day', 'week', 'month', 'year'],
           datasets: [
             {
-              labels: '# of Mentions',
+              label: '# of Mentions',
               data: [arry[0], arry[1], arry[2], arry[3], arry[4]],
               fill: false,
               backgroundColor: 'rgb(255, 99, 132)',
@@ -69,20 +92,50 @@ export default function App() {
             },
           ],
         })
+
+        setPieData({
+          labels: ['hour', 'day', 'week', 'month', 'year'],
+          datasets: [
+            {
+              label: '# of Mentions',
+              data: [arry[0], arry[1], arry[2], arry[3], arry[4]],
+              backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(75, 192, 192)',
+                'rgb(255, 205, 86)',
+                'rgb(201, 203, 207)',
+                'rgb(54, 162, 235)'
+              ],
+              borderColor: 'rgba(0,0,0)',
+            },
+          ],
+        })
+        if (arry[4] != 0) {
+          var x = document.getElementById("hide");
+          x.style.display = "block";
+        }
       })
-
   }, [ticker]);
-  
-
 
   return (
     <div className="App">
       <Counter parentCallback={callback} />
       <h2>{ticker}</h2>
-      <div id="details"></div>
       
-
-      <Chart chartData={chartData} />
+      <div id="hide" className={styles.hide}>
+        <div id="details"></div>
+        
+        <div className={styles.row}>
+          <div className={styles.pie}>
+            <Pie className={styles.pie} chartData={pieData} />
+          </div>
+          
+          <div id="mentionsDescription" className={styles.description}>
+          </div>
+        </div>
+        
+        <Chart chartData={chartData} />
+      </div>
     </div>
   );
 }
