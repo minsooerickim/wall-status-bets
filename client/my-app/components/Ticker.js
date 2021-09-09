@@ -55,27 +55,27 @@ export default function App() {
         
         document.getElementById("mentionsDescription").innerHTML = "";
         var h3 = document.createElement("p");
-        var text = document.createTextNode('r/wallstreetbets mentioned ' + ticker + ' ' + arry[0] + ' times in the past hour');
+        var text = document.createTextNode(arry[0] + ' times in the past hour');
         h3.appendChild(text);
         document.getElementById("mentionsDescription").appendChild(h3);
 
         h3 = document.createElement("p");
-        text = document.createTextNode('r/wallstreetbets mentioned ' + ticker + ' ' +  + arry[1] + ' times in the past day');
+        text = document.createTextNode(arry[1] + ' times in the past day');
         h3.appendChild(text);
         document.getElementById("mentionsDescription").appendChild(h3);
 
         h3 = document.createElement("p");
-        text = document.createTextNode('r/wallstreetbets mentioned ' + ticker + ' ' +  + arry[2] + ' times in the past week');
+        text = document.createTextNode(arry[2] + ' times in the past week');
         h3.appendChild(text);
         document.getElementById("mentionsDescription").appendChild(h3);
 
         h3 = document.createElement("p");
-        text = document.createTextNode('r/wallstreetbets mentioned ' + ticker + ' ' +  + arry[3] + ' times in the past month');
+        text = document.createTextNode(arry[3] + ' times in the past month');
         h3.appendChild(text);
         document.getElementById("mentionsDescription").appendChild(h3);
 
         h3 = document.createElement("p");
-        text = document.createTextNode('r/wallstreetbets mentioned ' + ticker + ' ' +  + arry[4] + ' times in the past year');
+        text = document.createTextNode(arry[4] + ' times in the past year');
         h3.appendChild(text);
         document.getElementById("mentionsDescription").appendChild(h3);
 
@@ -111,7 +111,15 @@ export default function App() {
           ],
         })
         if (arry[4] != 0) {
+          //hiding loading animation once all content loaded
+          var x = document.getElementById("loading");
+          x.style.display = "none";
+          
+          //displaying loaded content and previously hidden searchbar
           var x = document.getElementById("hide");
+          x.style.display = "block";
+
+          var x = document.getElementById("disappear");
           x.style.display = "block";
         }
       })
@@ -120,18 +128,26 @@ export default function App() {
   return (
     <div className="App">
       <Counter parentCallback={callback} />
-      <h2>{ticker}</h2>
+      {/* <h2>{ticker}</h2> */}
       
       <div id="hide" className={styles.hide}>
+        <h2 className={styles.tickerName}>{ticker}</h2>
         <div id="details"></div>
         
         <div className={styles.row}>
+
           <div className={styles.pie}>
             <Pie className={styles.pie} chartData={pieData} />
           </div>
           
-          <div id="mentionsDescription" className={styles.description}>
+          <div className={styles.description}>
+            <p className={styles.codeHeader}>
+              <code className={styles.code}>r/wallstreetbets</code>
+              {' '} mentioned {ticker}
+            </p>
+            <div id="mentionsDescription"></div>
           </div>
+
         </div>
         
         <Chart chartData={chartData} />

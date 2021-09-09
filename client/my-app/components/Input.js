@@ -1,6 +1,8 @@
 import Axios from 'axios'
 import React, { useState, useEffect } from "react";
 
+import Loading from '../components/Loading'
+
 import styles from '../styles/Input.module.css'
 
 export default function Input({parentCallback}) {
@@ -46,8 +48,16 @@ export default function Input({parentCallback}) {
             alert("Please enter a valid ticker!");
         }
         if (check) {
+            //loading animation
+            var x = document.getElementById("loading");
+            x.style.display = "flex";
+
+            //hiding previous content and search bar while loading
+            var x = document.getElementById("disappear");
+            x.style.display = "none";
             var x = document.getElementById("hide");
             x.style.display = "none";
+
             Axios.post("http://localhost:3001/insert", Input).then((response) => {
                 console.log(response.data);
                 if (response.data === 'update') {

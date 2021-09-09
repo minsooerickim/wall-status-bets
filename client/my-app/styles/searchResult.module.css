@@ -8,15 +8,6 @@
     max-width: 100vw;
   }
   
-  .main {
-    padding: 5rem 0;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
   .footer {
     width: 100%;
     /* height: 100px; */
@@ -31,6 +22,8 @@
     justify-content: center;
     align-items: center;
     flex-grow: 1;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
   
   .footer span {
@@ -70,6 +63,7 @@
   
   .start {
     text-align: center;
+    margin-bottom: 20px;
   }
   
   .trending {
@@ -86,7 +80,12 @@
   
     flex: 50%
   }
-
+  .loading {
+    display: none;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
   .grid {
     display: flex;
     align-items: center;

@@ -1,7 +1,9 @@
 import React from 'react'
-import Ticker from '../components/Ticker'
 import Head from 'next/head'
 import Link from 'next/Link'
+
+import Ticker from '../components/Ticker'
+import Loading from '../components/Loading'
 
 import styles from '../styles/searchresult.module.css'
 
@@ -20,16 +22,19 @@ export default function searchResult() {
               <h1 className={styles.title}>
                 Welcome to <a>WallStatusBets.io!</a>
               </h1>
-    
-              <p className={styles.description}>
-                What do the people of the {' '}
-                <code className={styles.code}>r/wallstreetbets</code>
-                {' '} think?
-              </p>
-              <div className={styles.start}>
-                <Ticker/>
+
+              <div id="disappear">
+                <p className={styles.description}>
+                  What do the people of the {' '}
+                  <code className={styles.code}>r/wallstreetbets</code>
+                  {' '} think?
+                </p>
+                <div className={styles.start}>
+                  <Ticker/>
+                </div>
               </div>
             </div>
+            <Loading/>
           </main>
           
     
