@@ -1,6 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
-import Link from 'next/Link'
+import { motion } from "framer-motion";
 
 import Ticker from '../components/Ticker'
 import Loading from '../components/Loading'
@@ -19,19 +19,32 @@ export default function searchResult() {
     
           <main>
             <div>
-              <h1 className={styles.title}>
-                Welcome to <a href="/">WallStatusBets.io!</a>
-              </h1>
-
+              <motion.div
+                initial={{ x: '-100vw' }}
+                animate={{ x: 0 }}
+                transition={{ type: 'spring', duration: 1, bounce: 0.3 }}
+              >
+                <h1 className={styles.title}>
+                  Welcome to <a href="/"> WallStatusBets.io!</a>
+                </h1>
+              </motion.div>
+              
               <div id="disappear">
-                <p className={styles.description}>
-                  What do the people of the {' '}
-                  <code className={styles.code}>r/wallstreetbets</code>
-                  {' '} think?
-                </p>
+                <motion.div
+                  initial={{ x: '100vw' }}
+                  animate={{ x: 0 }}
+                  transition={{ type: 'spring', duration: 1, bounce: 0.3 }}
+                >
+                  <p className={styles.description}>
+                    What do the people of the {' '}
+                    <code className={styles.code}>r/wallstreetbets</code>
+                    {' '} think?
+                  </p>
+                
                 <div className={styles.start}>
                   <Ticker/>
                 </div>
+                </motion.div>
               </div>
             </div>
             <Loading/>

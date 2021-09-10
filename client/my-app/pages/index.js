@@ -3,6 +3,8 @@ import styles from '../styles/Home.module.css'
 
 import React, {useState, useEffect, createElement} from 'react'
 import Link from 'next/Link'
+import { motion } from 'framer-motion'
+
 import axios from 'axios'
 
 export default function Home() {
@@ -24,7 +26,6 @@ export default function Home() {
   const [trending, setTrending] = useState([]);
   useEffect(() => {
     axios.post('http://localhost:3001/trending').then((response) => {
-      // console.log(response.data);  
       setTrending(response.data);
     })
   }, []); 
@@ -45,7 +46,7 @@ export default function Home() {
       <main>
         <div>
           <h1 className={styles.title}>
-            Welcome to <a>WallStatusBets.io!</a>
+            Welcome to <a href="/">WallStatusBets.io!</a>
           </h1>
 
           <p className={styles.description}>
@@ -62,29 +63,37 @@ export default function Home() {
 
         <div className={styles.row}>
           
-          <div className={styles.trending}>
+          <motion.div className={styles.trending}
+            initial={{ x: '-100vw' }}
+            animate={{ x: 0 }}
+            transition={{ type: 'spring', duration: 1, bounce: 0.3 }}
+          >
             <div>
               <p id="wsbtrending" className={styles.description}><code className={styles.code}>r/wallstreetbets</code></p>
                 {/* {snoowrapCount} */}
                 {trending.map((val, key) => {
-                  return (
-                    <p key={key} id={styles.list}>{key+1}. {val.selftext}</p>
-                  )
+                  if (key != 0) {
+                    return (
+                      <p key={key} id={styles.list}>{key}. {val.selftext}</p>
+                    )
+                  }
                 })}
             </div>
-          </div>
+          </motion.div>
 
-          <div className={styles.wsb}>
+          <motion.div className={styles.wsb}
+            initial={{ x: '100vw' }}
+            animate={{ x: 0 }}
+            transition={{ type: 'spring', duration: 1, bounce: 0.3 }}
+          >
             <p className={styles.description}><code className={styles.code}>WallStatusBets.io</code></p>
                 {ticker.map((val, key) => {
                     return (
                       <p key={key} id={styles.ticker}>{key+1}. {val.ticker} - {val.count} searches</p>
                     )
                 })}
-          </div>
+          </motion.div>
         </div>
-
-        <p>hello</p>
       </main>
       
 

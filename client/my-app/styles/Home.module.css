@@ -40,6 +40,10 @@
 .title a {
   color: #c3532b;
   text-decoration: none;
+  transition: 0.5s;
+}
+.title a:hover {
+  font-size: 5.5rem;
 }
 
 .title {
