@@ -3,7 +3,7 @@ import styles from '../styles/Home.module.css'
 
 import React, {useState, useEffect, createElement} from 'react'
 import Link from 'next/Link'
-import { motion } from 'framer-motion'
+import { motion, AnimateSharedLayout, AnimatePresence } from 'framer-motion'
 
 import axios from 'axios'
 
@@ -27,12 +27,13 @@ export default function Home() {
   useEffect(() => {
     axios.post('http://localhost:3001/trending').then((response) => {
       setTrending(response.data);
+      console.log(trending);
     })
   }, []); 
   
-  for (var i = 0; i < trending.length; ++i) {
-    if (trending[i].selftext === "") { trending.splice(i, 1); console.log("empty string found") }
-  }
+  // for (var i = 0; i < trending.length; ++i) {
+  //   if (trending[i].selftext === "") { trending.splice(i, 1); console.log("empty string found") }
+  // }
 
   return (  
     <div className={styles.container}>
@@ -63,23 +64,17 @@ export default function Home() {
 
         <div className={styles.row}>
           
-          <motion.div className={styles.trending}
-            initial={{ x: '-100vw' }}
-            animate={{ x: 0 }}
-            transition={{ type: 'spring', duration: 1, bounce: 0.3 }}
-          >
-            <div>
-              <p id="wsbtrending" className={styles.description}><code className={styles.code}>r/wallstreetbets</code></p>
-                {/* {snoowrapCount} */}
-                {trending.map((val, key) => {
-                  if (key != 0) {
-                    return (
-                      <p key={key} id={styles.list}>{key}. {val.selftext}</p>
-                    )
-                  }
-                })}
-            </div>
-          </motion.div>
+        <AnimateSharedLayout>
+          <motion.ul layout initial={{ borderRadius: 25 }}>
+            {trending.map((val, key) => {
+              if (key != 0) {
+                {console.log(key)}
+                return <Item title={val.title} val={val.selftext} key={key + ""} />
+              }
+            }
+            )}
+          </motion.ul>
+        </AnimateSharedLayout>  
 
           <motion.div className={styles.wsb}
             initial={{ x: '100vw' }}
@@ -110,3 +105,45 @@ export default function Home() {
     </div>
   )
 }
+
+function Item(props) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleOpen = () => setIsOpen(!isOpen);
+
+  return (
+    <motion.li className="list" layout onClick={toggleOpen} initial={{ borderRadius: 10 }}>
+      <motion.div className="preview" className="white" layout><div className="number">1</div>{props.title}</motion.div>
+      <AnimatePresence>{isOpen && <Content val={props.val}/>}</AnimatePresence>
+    </motion.li>
+  );
+}
+
+function Content(props) {
+  if (props.val) {
+    return (
+      <motion.div
+        layout
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+      <div className="desc">{props.val}</div>
+      </motion.div>
+    );
+  }
+  else {
+    return (
+      <motion.div
+        layout
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+      <div className="desc">no content available for this post! :(</div>
+      </motion.div>
+    )
+  }
+}
+
+const items = [0, 1, 2];

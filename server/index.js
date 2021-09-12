@@ -163,9 +163,9 @@ app.post('/trending', async (req, res) => {
         refreshToken: '726503909821-n6MN-jgHNbngOEnK_QTSSMnnFsxMUQ',
     });
     //make the limit dynamic from req (selectors from frontend (top 5, 10, 15, 20, etc.))
-    r.getHot('wallstreetbets', {limit: 10}).then(result => {
+    r.getHot('wallstreetbets', {limit: 5}).then(result => {
         if (JSON.stringify(result) === "") { res.send("empty string"); }
-        else { res.send(JSON.stringify(result)); }
+        else { res.send(JSON.stringify(result));}
     })
 })
 
