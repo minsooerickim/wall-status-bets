@@ -112,8 +112,17 @@
   color: #c3532b;
   text-align: center;
 }
-
-
+.click {
+  color: #c3532b;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.click:hover {
+  cursor: pointer
+}
+.subHeader {
+  padding-bottom: 15px;
+}
 .grid {
   display: flex;
   align-items: center;

@@ -40,7 +40,7 @@ li {
 }
 
 ul {
-  width: 700px;
+  width: 500px;
   display: flex;
   flex-direction: column;
   background: #c3532b;
@@ -53,7 +53,9 @@ ul {
   border-radius: 25px;
   padding: 10px 10px;
 }
-
+.preview {
+  font-size: 4rem !important;
+}
 li {
   background-color: rgba(255, 126, 126, 0.5);
   border-radius: 10px;
@@ -69,16 +71,6 @@ li:last-child {
 }
 .list {
   text-align: center;
-}
-.number {
-  width: 20px;
-  height: 20px;
-  padding: 5px 5px;
-  margin-right: 10px;
-  margin-bottom: 10px;
-  border-radius: 20px;
-  background-color: white;
-  color: black;
 }
 .row {
   width: 100%;
