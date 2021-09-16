@@ -2,6 +2,7 @@ const axios = require('axios');
 
 const express = require('express');
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 
 const cors = require('cors')
 const app = express();
@@ -12,9 +13,11 @@ const redditCountModel = require('./models/redditCount');
 
 app.use(express.json()); //allows for receiving data from frontend in json
 app.use(cors());
-  
+
+dotenv.config();
+
 mongoose.connect(
-    'mongodb+srv://minsookime:wall-street-bets-password@crud.xtajt.mongodb.net/stock?retryWrites=true&w=majority', 
+    'mongodb+srv://' + process.env.DB_USERNAME + ':' + process.env.DB_PASSWORD + '@crud.xtajt.mongodb.net/stock?retryWrites=true&w=majority', 
     { useNewUrlParser: true, },
 );
 
@@ -74,10 +77,10 @@ app.post('/search', async (req, res) => {
     const snoowrapp = require('snoowrap');
     
     const r = new snoowrapp({
-        userAgent: 'script:test:v1.0.0 <developerminsoo>',
-        clientId: 'Ur9aW_N8R7ZBnkbCmHqA2g',
-        clientSecret: '7-olaVnHIokgpdR22zh3YhxpQoJmTA',
-        refreshToken: '726503909821-n6MN-jgHNbngOEnK_QTSSMnnFsxMUQ',
+        userAgent: process.env.SNOO_USER_AGENT,
+        clientId: process.env.SNOO_CLIENT_ID,
+        clientSecret: process.env.SNOO_CLIENT_SECRET,
+        refreshToken: process.env.SNOO_REFRESH_TOKEN,
     });
     // arry = [] arry[0] = length of 'hour' result; arry[1] = length of 'week' result etc.
     var arr = [];
@@ -126,10 +129,10 @@ app.post('/search', async (req, res) => {
 //         const snoowrapp = require('snoowrap');
         
 //         const r = new snoowrapp({
-//             userAgent: 'script:test:v1.0.0 <developerminsoo>',
-//             clientId: 'Ur9aW_N8R7ZBnkbCmHqA2g',
-//             clientSecret: '7-olaVnHIokgpdR22zh3YhxpQoJmTA',
-//             refreshToken: '726503909821-n6MN-jgHNbngOEnK_QTSSMnnFsxMUQ',
+                // userAgent: process.env.SNOO_USER_AGENT,
+                // clientId: process.env.SNOO_CLIENT_ID,
+                // clientSecret: process.env.SNOO_CLIENT_SECRET,
+                // refreshToken: process.env.SNOO_REFRESH_TOKEN,
 //         });
 //         r.getSubreddit('wallstreetbets').search({query: req.body.Symbol, time:'day', limit:500}).then(result => {
 //             var count = result.length;
@@ -157,10 +160,10 @@ app.post('/trending', async (req, res) => {
     const snoowrapp = require('snoowrap');
     
     const r = new snoowrapp({
-        userAgent: 'script:test:v1.0.0 <developerminsoo>',
-        clientId: 'Ur9aW_N8R7ZBnkbCmHqA2g',
-        clientSecret: '7-olaVnHIokgpdR22zh3YhxpQoJmTA',
-        refreshToken: '726503909821-n6MN-jgHNbngOEnK_QTSSMnnFsxMUQ',
+        userAgent: process.env.SNOO_USER_AGENT,
+        clientId: process.env.SNOO_CLIENT_ID,
+        clientSecret: process.env.SNOO_CLIENT_SECRET,
+        refreshToken: process.env.SNOO_REFRESH_TOKEN,
     });
     //make the limit dynamic from req (selectors from frontend (top 5, 10, 15, 20, etc.))
     r.getHot('wallstreetbets', {limit: 100}).then(result => {
