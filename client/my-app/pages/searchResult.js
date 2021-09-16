@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 
 import Ticker from '../components/Ticker'
 import Loading from '../components/Loading'
+import Socials from '../components/Socials'
 
 import styles from '../styles/searchresult.module.css'
 
@@ -61,6 +62,8 @@ export default function searchResult() {
             Powered by &nbsp;<span>Minsoo Kim</span>
             </a>
           </footer>
+          <Socials />
+          <p>WallStatusBets.io</p>
         </div>
     )
 }

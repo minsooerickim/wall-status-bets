@@ -1,0 +1,10 @@
+.icons {
+    color: #c3532b;
+    font-size: 2rem;
+    margin-left: 15px;
+    margin-right: 15px;
+    transition: .2s;
+}
+.icons:hover {
+    font-size: 3rem;
+}

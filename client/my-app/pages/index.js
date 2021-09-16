@@ -7,6 +7,8 @@ import { motion, AnimateSharedLayout, AnimatePresence } from 'framer-motion'
 
 import axios from 'axios'
 
+import Socials from '../components/Socials'
+
 export default function Home() {
   const [nasdaqList, setNasdaqList] = useState([]);
   useEffect(() => {
@@ -150,15 +152,11 @@ export default function Home() {
       
 
 
-      <footer className={styles.footer}>
-        <a className={styles.github}
-          href="https://github.com/minsooerickim"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-        Powered by &nbsp;<span>Minsoo Kim</span>
-        </a>
+      <footer className={styles.footer}>      
+        <p>Powered by &nbsp;<span>Minsoo Kim</span></p>        
       </footer>
+      <Socials />
+      <p>WallStatusBets.io</p>
     </div>
   )
 }
@@ -174,7 +172,7 @@ function Item(props) {
       layout onClick={toggleOpen} 
       // initial={{ borderRadius: 10 }}
     >
-      <motion.div className="preview" className="white" layout>{props.num}. {props.title}</motion.div>
+      <motion.div className={styles.entries} layout>{props.num}. {props.title}</motion.div>
       <AnimatePresence>{isOpen && <Content val={props.val}/>}</AnimatePresence>
     </motion.li>
   );
@@ -187,7 +185,7 @@ function Item2(props) {
 
   return (
     <motion.li className="list" layout onClick={toggleOpen}>
-      <motion.div className="preview" className="white" layout>{props.num + 1}. {props.ticker}</motion.div>
+      <motion.div className={styles.entries} layout>{props.num + 1}. {props.ticker}</motion.div>
       <AnimatePresence>{isOpen && <Content2 count={props.count}/>}</AnimatePresence>
     </motion.li>
   );

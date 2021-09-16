@@ -153,7 +153,8 @@ export default function App() {
         <div>
           <Chart chartData={chartData} />
         </div>
-        
+        <br></br>
+        <br></br>
       </div>
     </div>
   );

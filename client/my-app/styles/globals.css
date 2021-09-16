@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+
+* {
+  font-family: 'Source Code Pro', monospace;
+}
+
 html,
 body {
   padding: 0;
@@ -13,7 +19,7 @@ a {
 
 body {
   box-sizing: border-box;
-  background-color: black;
+  background-color: rgb(49, 48, 48);
 }
 
 h1, h2, h3, h4, p, a, span {
