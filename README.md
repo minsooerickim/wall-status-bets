@@ -19,9 +19,9 @@
 
 CRUD web application using MERN Stack
 
-Retrieves and manipulates data from a subreddit, r/wallstreetbets, to provide graphical and statistical data for users to analyze the popularity of their stock in interest on the subreddit over different periods of time.
+Retrieves and manipulates data from a subreddit, ```r/wallstreetbets```, to provide graphical and statistical data for users to analyze the popularity of their stock in interest on the subreddit over different periods of time.
 
-Provides easy acess to all the trending stocks on both the subreddit, r/wallstreetbets, and WallStatusBets.io.
+Provides easy acess to all the trending stocks on both the subreddit, ```r/wallstreetbets```, and ```WallStatusBets.io```.
 
 ## Reflection
 
