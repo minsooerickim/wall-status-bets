@@ -1,6 +1,7 @@
 # WallStatusBets.io
 
 ![Alt Text](/client/my-app/public/home.gif)
+
 ![Alt Text](/client/my-app/public/searchResult.gif)
 
 ---
@@ -21,6 +22,30 @@ CRUD web application using MERN Stack
 Retrieves and manipulates data from a subreddit, r/wallstreetbets, to provide graphical and statistical data for users to analyze the popularity of their stock in interest on the subreddit over different periods of time.
 
 Provides easy acess to all the trending stocks on both the subreddit, r/wallstreetbets, and WallStatusBets.io.
+
+## Reflection
+
+This was a 8 week long personal project build during the summer of 2021. Project goals included using new technologies and getting familiar with full stack development.
+
+I wanted to pull data from the reddit API based on what stock the user was interested in; I was able to achieve this with the ```create next-app``` boilerplate, then adding ```snoowrap```. I decided to use ```create next-app``` to invest more time in diving into weird technological rabbit holes.
+
+One of the hardest challenges I ran into was the reddit API limitations. The API had many limits when it came to data I wanted to retrieve. For instance, the API had a set number of posts and comments it was allowed to return. This was a big problem as I had to deal with huge chunks of data. I spent days trying to figure out a way around such a problem; Eventually, I ended up spending some time with ```snoowrap``` and found ways to use its functions to retrieve the desired data from reddit.
+
+## Installation and Setup Instructions
+
+Clone down this repository. You will need ```node```, ```npm```, and ```yarn``` installed globally on your machine.
+
+To Start Development Server:
+
+```yarn dev```
+
+To Start Server:
+
+```npm start```
+
+To Visit App:
+
+```localhost:3000```
 
 #### Technologies
 
