@@ -1,7 +1,7 @@
 # WallStatusBets.io
 
-![Project Image](/client/my-app/public/home.GIF)
-![Project Image](/client/my-app/public/searchResult.GIF)
+![Alt Text](/client/my-app/public/home.gif)
+![Alt Text](/client/my-app/public/searchResult.gif)
 
 ---
 
